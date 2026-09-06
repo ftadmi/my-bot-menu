@@ -76,11 +76,22 @@
 </head>
 <body>
 
+    <!-- صفحه اول: منوی اصلی با سه دسته‌بندی جستجو -->
     <div id="main-view" class="view active">
         <div class="header-title">🎬 منوی دانلود فیلم و سریال</div>
 
-        <button class="menu-btn" onclick="switchView('search-view')">
-            <span>🔍 جستجو و دانلود فیلم / سریال</span>
+        <button class="menu-btn" onclick="openSearch('iranian', 'ایرانی')">
+            <span>🇮🇷 جستجوی فیلم و سریال ایرانی</span>
+            <span>‹</span>
+        </button>
+
+        <button class="menu-btn" onclick="openSearch('turkish', 'ترکیه‌ای')">
+            <span>🇹🇷 جستجوی فیلم و سریال ترکیه‌ای</span>
+            <span>‹</span>
+        </button>
+
+        <button class="menu-btn" onclick="openSearch('foreign', 'خارجی')">
+            <span>🌍 جستجوی فیلم و سریال خارجی</span>
             <span>‹</span>
         </button>
 
@@ -95,17 +106,18 @@
         </button>
     </div>
 
+    <!-- صفحه دوم: فیلد جستجو برای دسته‌بندی انتخاب شده -->
     <div id="search-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('main-view')">
             <span>🔙 بازگشت به منوی اصلی</span>
         </button>
 
-        <div class="header-title">🔍 جستجوی پیشرفته</div>
+        <div class="header-title" id="searchTitle">🔍 جستجو</div>
         
         <input type="text" id="movieInput" class="search-box" placeholder="نام فیلم یا سریال را وارد کنید...">
         
         <button class="menu-btn search-submit-btn" onclick="submitSearch()">
-            <span>🚀 شروع جستجو و دریافت لینک</span>
+            <span>🚀 جستجو، بررسی آرشیو و دریافت لینک</span>
         </button>
     </div>
 
@@ -113,9 +125,18 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
+        let currentCategory = 'foreign';
+
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
+        }
+
+        function openSearch(category, categoryName) {
+            currentCategory = category;
+            document.getElementById('searchTitle').innerText = `🔍 جستجوی فیلم و سریال ${categoryName}`;
+            document.getElementById('movieInput').value = '';
+            switchView('search-view');
         }
 
         function submitSearch() {
@@ -124,7 +145,7 @@
                 alert("لطفاً نام فیلم یا سریال را وارد کنید!");
                 return;
             }
-            window.location.href = `https://t.me/MovieDownUploaderBot?start=search_${encodeURIComponent(query)}`;
+            window.location.href = `https://t.me/MovieDownUploaderBot?start=search_${currentCategory}_${encodeURIComponent(query)}`;
         }
 
         function openBotLink(action) {
