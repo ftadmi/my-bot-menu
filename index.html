@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منوی ربات</title>
+    <title>منوی دانلود فیلم و سریال</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
@@ -12,11 +12,16 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 15px;
-            display: flex;
+        }
+        .view {
+            display: none;
             flex-direction: column;
             gap: 12px;
         }
-        .menu-btn {
+        .active {
+            display: flex;
+        }
+        .menu-btn, .action-btn {
             background-color: #242f3d;
             color: #ffffff;
             border: none;
@@ -29,52 +34,101 @@
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: background 0.2s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .menu-btn:active {
+        .menu-btn:active, .action-btn:active {
             background-color: #2b5278;
         }
         .header-title {
             text-align: center;
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #5288c1;
+        }
+        .search-box {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #2b5278;
+            background-color: #18222d;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 10px;
+        }
+        .back-btn {
+            background-color: #1e293b;
+            color: #83a6cd;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
+            justify-content: center;
+        }
+        .search-submit-btn {
+            background-color: #2b5278;
+            justify-content: center;
+            margin-top: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="header-title">🎬 منوی مدیریت و دانلود</div>
+    <div id="main-view" class="view active">
+        <div class="header-title">🎬 منوی دانلود فیلم و سریال</div>
 
-    <button class="menu-btn" onclick="openLink('https://t.me/MovieDownUploaderBot?start=search')">
-        <span>🔍 جستجوی پیشرفته فیلم/سریال</span>
-        <span>‹</span>
-    </button>
+        <button class="menu-btn" onclick="switchView('search-view')">
+            <span>🔍 جستجو و دانلود فیلم / سریال</span>
+            <span>‹</span>
+        </button>
 
-    <button class="menu-btn" onclick="openLink('https://t.me/MovieDownUploaderBot?start=iranian')">
-        <span>🇮🇷 سایت‌های ایرانی (MovieBaz & Uptvs)</span>
-        <span>‹</span>
-    </button>
+        <button class="menu-btn" onclick="openBotLink('latest')">
+            <span>🔥 جدیدترین فیلم‌ها و تازه‌ها</span>
+            <span>‹</span>
+        </button>
 
-    <button class="menu-btn" onclick="openLink('https://t.me/MovieDownUploaderBot?start=latest')">
-        <span>🔥 جدیدترین فیلم‌ها و تازه‌ها</span>
-        <span>‹</span>
-    </button>
+        <button class="menu-btn" onclick="openBotLink('profile')">
+            <span>👤 حساب کاربری و اطلاعات</span>
+            <span>‹</span>
+        </button>
+    </div>
 
-    <button class="menu-btn" onclick="openLink('https://t.me/MovieDownUploaderBot?start=profile')">
-        <span>👤 پروفایل من و اطلاعات</span>
-        <span>‹</span>
-    </button>
+    <div id="search-view" class="view">
+        <button class="action-btn back-btn" onclick="switchView('main-view')">
+            <span>🔙 بازگشت به منوی اصلی</span>
+        </button>
+
+        <div class="header-title">🔍 جستجوی پیشرفته</div>
+        
+        <input type="text" id="movieInput" class="search-box" placeholder="نام فیلم یا سریال را وارد کنید...">
+        
+        <button class="menu-btn search-submit-btn" onclick="submitSearch()">
+            <span>🚀 شروع جستجو و دریافت لینک</span>
+        </button>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); // باز شدن به صورت کامل در پنجره تلگرام
+        tg.expand();
 
-        function openLink(url) {
-            // بستن مینی اپ و هدایت به ربات با دستور مربوطه
-            window.location.href = url;
+        function switchView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function submitSearch() {
+            const query = document.getElementById('movieInput').value.trim();
+            if (!query) {
+                alert("لطفاً نام فیلم یا سریال را وارد کنید!");
+                return;
+            }
+            window.location.href = `https://t.me/MovieDownUploaderBot?start=search_${encodeURIComponent(query)}`;
+        }
+
+        function openBotLink(action) {
+            window.location.href = `https://t.me/MovieDownUploaderBot?start=${action}`;
         }
     </script>
 </body>
