@@ -181,7 +181,7 @@
         </div>
     </div>
 
-    <!-- صفحه لیست آثار ژانر (پایه برای آینده) -->
+    <!-- صفحه لیست آثار ژانر -->
     <div id="results-list-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('genre-view')">
             <span>🔙 بازگشت به انتخاب ژانر</span>
@@ -221,10 +221,7 @@
 
         function selectGenre(genre) {
             selectedGenreType = genre;
-            // انتقال به صفحه لیست یا ارتباط با ربات
             switchView('results-list-view');
-            // در آینده می‌توانید اینجا کاربر را به ربات بفرستید یا لیست را لود کنید:
-            // window.location.href = `https://t.me/MovieDownUploaderBot?start=genre_${selectedMediaType}_${genre}`;
         }
 
         function submitSearch() {
