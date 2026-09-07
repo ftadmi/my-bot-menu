@@ -121,6 +121,14 @@
             <span>‹</span>
         </button>
 
+        <button class="menu-btn" onclick="switchView('categories-view')">
+            <span class="btn-content">
+                <span>📂</span>
+                دسته‌بندی‌ها
+            </span>
+            <span>‹</span>
+        </button>
+
         <button class="menu-btn" onclick="switchView('suggested-type-view')">
             <span class="btn-content">
                 <span>💡</span>
@@ -146,7 +154,7 @@
         </button>
     </div>
 
-    <!-- صفحه دوم: فیلد جستجو -->
+    <!-- صفحه دوم: فیلد جستجو برای دسته‌بندی‌ها -->
     <div id="search-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('main-view')">
             <span>🔙 بازگشت به منوی اصلی</span>
@@ -161,7 +169,38 @@
         </button>
     </div>
 
-    <!-- صفحه انتخاب نوع پیشنهادی -->
+    <!-- صفحه دسته‌بندی‌های جدید -->
+    <div id="categories-view" class="view">
+        <button class="action-btn back-btn" onclick="switchView('main-view')">
+            <span>🔙 بازگشت به منوی اصلی</span>
+        </button>
+
+        <div class="header-title">📂 انتخاب دسته‌بندی</div>
+
+        <div class="grid-container">
+            <button class="menu-btn" onclick="selectCategory('korean')">
+                <span class="btn-content">
+                    <img class="flag-icon" src="https://flagcdn.com/w40/kr.png" alt="پرچم کره">
+                    ک کره‌ای
+                </span>
+            </button>
+            <button class="menu-btn" onclick="selectCategory('indian')">
+                <span class="btn-content">
+                    <img class="flag-icon" src="https://flagcdn.com/w40/in.png" alt="پرچم هند">
+                    هندی
+                </span>
+            </button>
+            <button class="menu-btn" onclick="selectCategory('popular')"><span>⭐ محبوب‌ها</span></button>
+            <button class="menu-btn" onclick="selectCategory('romcom')"><span>❤️😂 عاشقانه-کمدی</span></button>
+            <button class="menu-btn" onclick="selectCategory('actcom')"><span>⚡😂 اکشن-کمدی</span></button>
+            <button class="menu-btn" onclick="selectCategory('romdrama')"><span>❤️🎭 عاشقانه-درام</span></button>
+            <button class="menu-btn" onclick="selectCategory('animation')"><span>🎨 انیمیشن</span></button>
+            <button class="menu-btn" onclick="selectCategory('romcom18')"><span>🔞❤️ عاشقانه-کمدی (18+)</span></button>
+            <button class="menu-btn" onclick="selectCategory('rom18')"><span>🔞❤️ عاشقانه (18+)</span></button>
+        </div>
+    </div>
+
+    <!-- صفحه انتخاب نوع پیشنهادی: فیلم یا سریال -->
     <div id="suggested-type-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('main-view')">
             <span>🔙 بازگشت به منوی اصلی</span>
@@ -211,16 +250,16 @@
         </div>
     </div>
 
-    <!-- صفحه نتایج -->
+    <!-- صفحه لیست آثار (پایه) -->
     <div id="results-list-view" class="view">
-        <button class="action-btn back-btn" onclick="switchView('genre-view')">
-            <span>🔙 بازگشت به انتخاب ژانر</span>
+        <button class="action-btn back-btn" onclick="switchView('categories-view')">
+            <span>🔙 بازگشت به دسته‌بندی‌ها</span>
         </button>
 
         <div class="header-title" id="listTitle">📋 لیست آثار</div>
         
         <div style="text-align: center; color: #8abcff; padding: 20px; font-size: 15px;">
-            ⏳ لیست آثار این ژانر به زودی پس از تکمیل ربات فعال خواهد شد...
+            ⏳ لیست آثار این بخش به زودی پس از تکمیل ربات فعال خواهد شد...
         </div>
     </div>
 
@@ -230,7 +269,6 @@
 
         let currentCategory = 'foreign';
         let selectedMediaType = 'movie';
-        let selectedGenreType = '';
 
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -244,13 +282,16 @@
             switchView('search-view');
         }
 
+        function selectCategory(cat) {
+            switchView('results-list-view');
+        }
+
         function selectMediaType(type) {
             selectedMediaType = type;
             switchView('genre-view');
         }
 
         function selectGenre(genre) {
-            selectedGenreType = genre;
             switchView('results-list-view');
         }
 
