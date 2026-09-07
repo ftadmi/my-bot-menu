@@ -252,8 +252,8 @@
 
     <!-- صفحه لیست آثار (پایه) -->
     <div id="results-list-view" class="view">
-        <button class="action-btn back-btn" onclick="switchView('categories-view')">
-            <span>🔙 بازگشت به دسته‌بندی‌ها</span>
+        <button class="action-btn back-btn" onclick="goBackFromResults()">
+            <span>🔙 بازگشت به مرحله قبل</span>
         </button>
 
         <div class="header-title" id="listTitle">📋 لیست آثار</div>
@@ -269,6 +269,7 @@
 
         let currentCategory = 'foreign';
         let selectedMediaType = 'movie';
+        let navigationSource = 'categories'; // برای تشخیص مسیر بازگشت
 
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -283,6 +284,7 @@
         }
 
         function selectCategory(cat) {
+            navigationSource = 'categories';
             switchView('results-list-view');
         }
 
@@ -292,7 +294,16 @@
         }
 
         function selectGenre(genre) {
+            navigationSource = 'genre';
             switchView('results-list-view');
+        }
+
+        function goBackFromResults() {
+            if (navigationSource === 'genre') {
+                switchView('genre-view');
+            } else {
+                switchView('categories-view');
+            }
         }
 
         function submitSearch() {
