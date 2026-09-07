@@ -72,11 +72,16 @@
             margin-top: 5px;
             font-weight: bold;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- صفحه اول: منوی اصلی با سه دسته‌بندی جستجو -->
+    <!-- صفحه اول: منوی اصلی -->
     <div id="main-view" class="view active">
         <div class="header-title">🎬 منوی دانلود فیلم و سریال</div>
 
@@ -95,6 +100,11 @@
             <span>‹</span>
         </button>
 
+        <button class="menu-btn" onclick="switchView('suggested-type-view')">
+            <span>💡 فیلم‌ها و سریال‌های پیشنهادی</span>
+            <span>‹</span>
+        </button>
+
         <button class="menu-btn" onclick="openBotLink('latest')">
             <span>🔥 جدیدترین فیلم‌ها و تازه‌ها</span>
             <span>‹</span>
@@ -106,7 +116,7 @@
         </button>
     </div>
 
-    <!-- صفحه دوم: فیلد جستجو برای دسته‌بندی انتخاب شده -->
+    <!-- صفحه دوم: فیلد جستجو برای دسته‌بندی‌ها -->
     <div id="search-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('main-view')">
             <span>🔙 بازگشت به منوی اصلی</span>
@@ -121,11 +131,76 @@
         </button>
     </div>
 
+    <!-- صفحه انتخاب نوع پیشنهادی: فیلم یا سریال -->
+    <div id="suggested-type-view" class="view">
+        <button class="action-btn back-btn" onclick="switchView('main-view')">
+            <span>🔙 بازگشت به منوی اصلی</span>
+        </button>
+
+        <div class="header-title">💡 انتخاب دسته‌بندی پیشنهادات</div>
+
+        <button class="menu-btn" onclick="selectMediaType('movie')">
+            <span>🎥 فیلم‌های پیشنهادی</span>
+            <span>‹</span>
+        </button>
+
+        <button class="menu-btn" onclick="selectMediaType('series')">
+            <span>📺 سریال‌های پیشنهادی</span>
+            <span>‹</span>
+        </button>
+    </div>
+
+    <!-- صفحه انتخاب ژانر -->
+    <div id="genre-view" class="view">
+        <button class="action-btn back-btn" onclick="switchView('suggested-type-view')">
+            <span>🔙 بازگشت به مرحله قبل</span>
+        </button>
+
+        <div class="header-title">🎭 ژانر مورد نظرت را انتخاب کن</div>
+
+        <div class="grid-container">
+            <button class="menu-btn" onclick="selectGenre('drama')"><span>🎭 درام</span></button>
+            <button class="menu-btn" onclick="selectGenre('action')"><span>⚡ اکشن</span></button>
+            <button class="menu-btn" onclick="selectGenre('comedy')"><span>😂 کمدی</span></button>
+            <button class="menu-btn" onclick="selectGenre('horror')"><span>👻 ترسناک</span></button>
+            <button class="menu-btn" onclick="selectGenre('romance')"><span>❤️ عاشقانه</span></button>
+            <button class="menu-btn" onclick="selectGenre('mystery')"><span>🕵️ رازآلود</span></button>
+            <button class="menu-btn" onclick="selectGenre('animation')"><span>🎨 انیمیشن</span></button>
+            <button class="menu-btn" onclick="selectGenre('thriller')"><span>🔥 هیجان انگیز</span></button>
+            <button class="menu-btn" onclick="selectGenre('fantasy')"><span>🧚 فانتزی</span></button>
+            <button class="menu-btn" onclick="selectGenre('crime')"><span>🔪 جنایی</span></button>
+            <button class="menu-btn" onclick="selectGenre('adventure')"><span>🧭 ماجراجویی</span></button>
+            <button class="menu-btn" onclick="selectGenre('musical')"><span>🎵 موزیکال</span></button>
+            <button class="menu-btn" onclick="selectGenre('western')"><span>🤠 وسترن</span></button>
+            <button class="menu-btn" onclick="selectGenre('war')"><span>🪖 جنگی</span></button>
+            <button class="menu-btn" onclick="selectGenre('scifi')"><span>🚀 علمی تخیلی</span></button>
+            <button class="menu-btn" onclick="selectGenre('family')"><span>👨‍👩‍👧‍👦 خانوادگی</span></button>
+            <button class="menu-btn" onclick="selectGenre('biography')"><span>📜 بیوگرافی</span></button>
+            <button class="menu-btn" onclick="selectGenre('history')"><span>🏛️ تاریخی</span></button>
+            <button class="menu-btn" onclick="selectGenre('sport')"><span>⚽ ورزشی</span></button>
+        </div>
+    </div>
+
+    <!-- صفحه لیست آثار ژانر (پایه برای آینده) -->
+    <div id="results-list-view" class="view">
+        <button class="action-btn back-btn" onclick="switchView('genre-view')">
+            <span>🔙 بازگشت به انتخاب ژانر</span>
+        </button>
+
+        <div class="header-title" id="listTitle">📋 لیست آثار</div>
+        
+        <div style="text-align: center; color: #8abcff; padding: 20px; font-size: 15px;">
+            ⏳ لیست آثار این ژانر به زودی پس از تکمیل ربات فعال خواهد شد...
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
 
         let currentCategory = 'foreign';
+        let selectedMediaType = 'movie';
+        let selectedGenreType = '';
 
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -137,6 +212,19 @@
             document.getElementById('searchTitle').innerText = `🔍 جستجوی فیلم و سریال ${categoryName}`;
             document.getElementById('movieInput').value = '';
             switchView('search-view');
+        }
+
+        function selectMediaType(type) {
+            selectedMediaType = type;
+            switchView('genre-view');
+        }
+
+        function selectGenre(genre) {
+            selectedGenreType = genre;
+            // انتقال به صفحه لیست یا ارتباط با ربات
+            switchView('results-list-view');
+            // در آینده می‌توانید اینجا کاربر را به ربات بفرستید یا لیست را لود کنید:
+            // window.location.href = `https://t.me/MovieDownUploaderBot?start=genre_${selectedMediaType}_${genre}`;
         }
 
         function submitSearch() {
