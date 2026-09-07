@@ -39,6 +39,18 @@
         .menu-btn:active, .action-btn:active {
             background-color: #2b5278;
         }
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .flag-icon {
+            width: 24px;
+            height: 16px;
+            border-radius: 3px;
+            object-fit: cover;
+            vertical-align: middle;
+        }
         .header-title {
             text-align: center;
             font-size: 18px;
@@ -86,38 +98,55 @@
         <div class="header-title">🎬 منوی دانلود فیلم و سریال</div>
 
         <button class="menu-btn" onclick="openSearch('iranian', 'ایرانی')">
-            <span>&#127471;&#127437; جستجوی فیلم و سریال ایرانی</span>
+            <span class="btn-content">
+                <img class="flag-icon" src="https://flagcdn.com/w40/ir.png" alt="پرچم ایران">
+                جستجوی فیلم و سریال ایرانی
+            </span>
             <span>‹</span>
         </button>
 
         <button class="menu-btn" onclick="openSearch('turkish', 'ترکیه‌ای')">
-            <span>&#127483;&#127479; جستجوی فیلم و سریال ترکیه‌ای</span>
+            <span class="btn-content">
+                <img class="flag-icon" src="https://flagcdn.com/w40/tr.png" alt="پرچم ترکیه">
+                جستجوی فیلم و سریال ترکیه‌ای
+            </span>
             <span>‹</span>
         </button>
 
         <button class="menu-btn" onclick="openSearch('foreign', 'خارجی')">
-            <span>🌍 جستجوی فیلم و سریال خارجی</span>
+            <span class="btn-content">
+                <span>🌍</span>
+                جستجوی فیلم و سریال خارجی
+            </span>
             <span>‹</span>
         </button>
 
-
         <button class="menu-btn" onclick="switchView('suggested-type-view')">
-            <span>💡 فیلم‌ها و سریال‌های پیشنهادی</span>
+            <span class="btn-content">
+                <span>💡</span>
+                فیلم‌ها و سریال‌های پیشنهادی
+            </span>
             <span>‹</span>
         </button>
 
         <button class="menu-btn" onclick="openBotLink('latest')">
-            <span>🔥 جدیدترین فیلم‌ها و تازه‌ها</span>
+            <span class="btn-content">
+                <span>🔥</span>
+                جدیدترین فیلم‌ها و تازه‌ها
+            </span>
             <span>‹</span>
         </button>
 
         <button class="menu-btn" onclick="openBotLink('profile')">
-            <span>👤 حساب کاربری و اطلاعات</span>
+            <span class="btn-content">
+                <span>👤</span>
+                حساب کاربری و اطلاعات
+            </span>
             <span>‹</span>
         </button>
     </div>
 
-    <!-- صفحه دوم: فیلد جستجو برای دسته‌بندی‌ها -->
+    <!-- صفحه دوم: فیلد جستجو -->
     <div id="search-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('main-view')">
             <span>🔙 بازگشت به منوی اصلی</span>
@@ -132,7 +161,7 @@
         </button>
     </div>
 
-    <!-- صفحه انتخاب نوع پیشنهادی: فیلم یا سریال -->
+    <!-- صفحه انتخاب نوع پیشنهادی -->
     <div id="suggested-type-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('main-view')">
             <span>🔙 بازگشت به منوی اصلی</span>
@@ -182,7 +211,7 @@
         </div>
     </div>
 
-    <!-- صفحه لیست آثار ژانر -->
+    <!-- صفحه نتایج -->
     <div id="results-list-view" class="view">
         <button class="action-btn back-btn" onclick="switchView('genre-view')">
             <span>🔙 بازگشت به انتخاب ژانر</span>
