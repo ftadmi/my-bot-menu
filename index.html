@@ -299,8 +299,8 @@
             container.innerHTML = '<div style="text-align: center; color: #8abcff; padding: 15px;">⏳ در حال جستجو و دریافت بنر از آرشیو و TMDB...</div>';
 
             try {
-                // آدرس سرور پایتون و وب‌سرویس Flask روی پورت 5000
-                const response = await fetch(`http://YOUR_SERVER_IP:5000/api/search_media?q=${encodeURIComponent(query)}&country=${currentSearchCountry}`);
+                // اتصال به سرور شما روی پورت ۵۰۰۰
+                const response = await fetch(`http://80.253.254.144:5000/api/search_media?q=${encodeURIComponent(query)}&country=${currentSearchCountry}`);
                 const result = await response.json();
 
                 container.innerHTML = '';
@@ -333,7 +333,7 @@
 
             } catch (error) {
                 console.error(error);
-                container.innerHTML = '<div style="text-align: center; color: #ff8a8a; padding: 15px;">⚠️ خطا در ارتباط با سرور. لطفاً پورت ۵۰۰۰ سرور را بررسی کنید.</div>';
+                container.innerHTML = '<div style="text-align: center; color: #ff8a8a; padding: 15px;">⚠️ خطا در ارتباط با سرور. لطفاً مطمئن شوید web_server.py با pm2 روشن است و پورت ۵۰۰۰ باز است.</div>';
             }
         }
 
